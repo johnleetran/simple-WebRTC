@@ -24,7 +24,7 @@
             const peer = new Peer(peerID, {
                 host: '9000-d3ae5283-6e07-43e5-8836-b9f74b127129.ws-us02.gitpod.io/',
                 port: 443,
-                path: '/myapp'
+                //path: '/myapp'
             });
             peer.on('connection', (conn) => {
                 conn.on('data', (data) => {

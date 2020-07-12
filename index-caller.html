@@ -15,7 +15,7 @@
         const audio = document.getElementById('js-media');
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
         var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        var peerID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
+        var peerID = Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 4);;
 
         function call() {
             //peerID = document.getElementById('textBox').value;
@@ -24,7 +24,7 @@
             const peer = new Peer(peerID, {
                 host: '9000-d3ae5283-6e07-43e5-8836-b9f74b127129.ws-us02.gitpod.io/',
                 port: 443,
-                path: '/myapp'
+                //path: '/myapp'
             });
             peer.on('connection', (conn) => {
                 conn.on('data', (data) => {

@@ -1,0 +1,53 @@
+<html>
+<header>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+</header>
+
+<body>
+    <button onclick="call()">Call</button>
+    <video id='js-media'>
+    </video>
+    <p id="peerID"></p>
+
+    <script type="text/javascript">
+
+        var mediaStream;
+        const audio = document.getElementById('js-media');
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+        var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        var peerID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);;
+
+        function call() {
+            //peerID = document.getElementById('textBox').value;
+            document.getElementById('peerID').innerHTML = peerID;
+            console.log("peerID", peerID);
+            const peer = new Peer(peerID, {
+                host: 'localhost',
+                port: 9000,
+                path: '/myapp'
+            });
+            peer.on('connection', (conn) => {
+                conn.on('data', (data) => {
+                    // Will print 'hi!'
+                    console.log("hello", data);
+                });
+            });
+
+            peer.on('call', function (call) {
+                getUserMedia({ video: true, audio: true }, function (stream) {
+                    call.answer(stream); // Answer the call with an A/V stream.
+                    call.on('stream', function (remoteStream) {
+                        // Show stream in some video/canvas element.
+                        console.log("remoteStream")
+                        audio.srcObject = remoteStream;//URL.createObjectURL(stream);
+                        audio.play();
+                    });
+                }, function (err) {
+                    console.log('Failed to get local stream', err);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
